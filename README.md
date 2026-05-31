@@ -318,6 +318,208 @@ Users are responsible for ensuring their use complies with Goodinfo's terms and 
 - [ ] Add tests for preset loading and table parsing
 - [ ] Add examples for common Taiwan stock screening workflows
 
+## One-Week Milestone Plan
+
+The goal for the first week is to ship `v0.1.0`: a usable MVP that can save a Goodinfo screener URL, run it through a local automated browser, parse the rendered result table, and export the result.
+
+### Day 1: Project Scaffold and Development Environment
+
+Milestone:
+
+- Create the Python package structure
+- Add `pyproject.toml`
+- Add dependencies: `typer`, `rich`, `playwright`, `beautifulsoup4`, `pydantic`, and `pytest`
+- Create the CLI entrypoint
+- Add `ruff` for linting
+
+Checkpoint:
+
+```bash
+goodinfo --help
+pytest
+ruff check .
+```
+
+Done when:
+
+- The package can be installed locally
+- `goodinfo --help` works
+- README includes installation and development instructions
+
+### Day 2: Preset System
+
+Milestone:
+
+- Implement `goodinfo init`
+- Implement `goodinfo import <name> <url>`
+- Implement `goodinfo list`
+- Implement `goodinfo remove`
+- Store presets in `~/.config/goodinfo-screener-cli/presets.yml`
+- Validate preset names and Goodinfo URLs
+
+Checkpoint:
+
+```bash
+goodinfo init
+goodinfo import high-margin "https://goodinfo.tw/tw/StockList.asp?..."
+goodinfo list
+goodinfo remove high-margin
+pytest tests/test_presets.py
+```
+
+Done when:
+
+- Presets can be added, listed, and removed
+- Duplicate preset names fail clearly
+- Non-Goodinfo URLs fail clearly
+- Preset tests run without network access
+
+### Day 3: Browser Runner
+
+Milestone:
+
+- Implement a Playwright browser runner
+- Support `--headful`
+- Support `--timeout`
+- Open the saved preset URL
+- Wait for the Goodinfo page to load
+- Return rendered HTML for parsing
+- Provide clear timeout and table-missing errors
+
+Checkpoint:
+
+```bash
+playwright install chromium
+goodinfo run high-margin --headful
+goodinfo run high-margin --timeout 45000
+```
+
+Done when:
+
+- The browser can open a Goodinfo screener URL
+- Headless and headful modes both work
+- Failures produce readable error messages
+
+### Day 4: Table Parser
+
+Milestone:
+
+- Implement `parser.py`
+- Locate the main stock list result table
+- Extract headers
+- Extract rows
+- Normalize whitespace
+- Return `list[dict[str, str]]`
+- Add saved HTML fixture tests
+
+Checkpoint:
+
+```bash
+pytest tests/test_parser.py
+```
+
+Done when:
+
+- Parser tests do not require network access
+- A saved Goodinfo HTML fixture can be parsed
+- Original Goodinfo column names are preserved where possible
+
+### Day 5: Output and Export
+
+Milestone:
+
+- Print terminal tables with `rich`
+- Implement CSV export
+- Implement JSON export
+- Use UTF-8 BOM for CSV spreadsheet compatibility
+- Handle empty result sets clearly
+
+Checkpoint:
+
+```bash
+goodinfo run high-margin
+goodinfo run high-margin --csv results/high-margin.csv
+goodinfo run high-margin --json results/high-margin.json
+pytest tests/test_exporters.py
+```
+
+Done when:
+
+- Terminal output is readable
+- CSV and JSON export work
+- Exported rows match the parsed terminal output
+
+### Day 6: Integration, Docs, and CI
+
+Milestone:
+
+- Add installation instructions
+- Add quick start instructions
+- Add `examples/high-margin.yml`
+- Add troubleshooting notes
+- Add GitHub issue templates
+- Add GitHub Actions CI for `pytest` and `ruff`
+
+Checkpoint:
+
+```bash
+pytest
+ruff check .
+git status
+```
+
+Done when:
+
+- A new user can follow the README and run the MVP
+- CI runs automatically on GitHub
+- At least one complete example workflow exists
+
+### Day 7: v0.1.0 Release
+
+Milestone:
+
+- Run the full workflow end to end
+- Polish README wording
+- Add `CHANGELOG.md`
+- Create GitHub release `v0.1.0`
+- Add future roadmap issues
+
+Checkpoint:
+
+```bash
+goodinfo import high-margin "<real-goodinfo-url>"
+goodinfo run high-margin --headful
+goodinfo run high-margin --csv results/high-margin.csv
+pytest
+ruff check .
+```
+
+Done when:
+
+- The GitHub repository has a `v0.1.0` release
+- The README is complete enough for a new user
+- The package can be cloned, installed, and run locally
+- The project has clear future roadmap issues
+
+### Scope Control for Week One
+
+Do not include these in the first-week MVP:
+
+- Building every Goodinfo filter condition from CLI flags
+- Scheduled jobs
+- Bulk crawling
+- Individual stock detail page crawling
+- Login workflows
+- Cookie management beyond normal browser behavior
+- CAPTCHA handling
+- Investment strategy recommendations
+
+The first-week success criterion is intentionally narrow:
+
+```text
+Save a Goodinfo screener URL, run it from the CLI with Playwright, parse the rendered table, and export the result.
+```
+
 ## Non-Goals
 
 - No CAPTCHA bypassing
