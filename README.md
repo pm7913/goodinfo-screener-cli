@@ -17,6 +17,55 @@ The first milestone is a minimal CLI that can:
 - Print results as a terminal table
 - Export results as CSV or JSON
 
+## Installation
+
+This project currently targets Python 3.11 or newer.
+
+Install from a local checkout:
+
+```bash
+git clone https://github.com/pm7913/goodinfo-screener-cli.git
+cd goodinfo-screener-cli
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+```
+
+Install Playwright's Chromium browser when working on browser automation:
+
+```bash
+playwright install chromium
+```
+
+Verify the CLI:
+
+```bash
+goodinfo --help
+goodinfo --version
+```
+
+## Development
+
+Run tests:
+
+```bash
+pytest
+```
+
+Run lint checks:
+
+```bash
+ruff check .
+```
+
+Day 1 development status:
+
+- Python package scaffold exists
+- `goodinfo` CLI entrypoint exists
+- Planned commands are visible in `goodinfo --help`
+- Placeholder commands exit with clear milestone messages
+- Basic CLI tests are included
+
 ## Why This Exists
 
 Goodinfo provides a useful Taiwan stock screening interface, but repeated manual screening can become tedious:
