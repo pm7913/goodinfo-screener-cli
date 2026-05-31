@@ -46,6 +46,16 @@ goodinfo --version
 
 ## Development
 
+This repository uses a pull request workflow for changes after the initial scaffold.
+
+Recommended flow:
+
+```bash
+git switch main
+git pull
+git switch -c feat/<short-change-name>
+```
+
 Run tests:
 
 ```bash
@@ -65,6 +75,8 @@ Day 1 development status:
 - Planned commands are visible in `goodinfo --help`
 - Placeholder commands exit with clear milestone messages
 - Basic CLI tests are included
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the PR workflow, local checks, and responsible-use contribution guidelines.
 
 ## Why This Exists
 
