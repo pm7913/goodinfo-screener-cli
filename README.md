@@ -95,6 +95,15 @@ Day 3 development status:
 - `--html <path>` can save rendered HTML for debugging or future parser fixtures
 - CSV and JSON export remain blocked until Day 4/5 table parsing is implemented
 
+Day 4 development status:
+
+- `parser.py` locates the rendered Goodinfo stock result table
+- Table parsing extracts normalized headers and stock data rows
+- Duplicate or blank headers are made stable for dictionary output
+- Non-stock rows are skipped using Taiwan stock code detection
+- `goodinfo run <name>` now reports the parsed row count after browser loading
+- Parser tests use synthetic fixtures and do not commit Goodinfo HTML snapshots
+
 ## Why This Exists
 
 Goodinfo provides a useful Taiwan stock screening interface, but repeated manual screening can become tedious:

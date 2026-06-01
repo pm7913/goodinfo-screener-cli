@@ -99,7 +99,12 @@ def test_run_uses_browser_runner_for_saved_preset(tmp_path, monkeypatch) -> None
         return BrowserRunResult(
             final_url=url,
             title="Goodinfo Test",
-            html="<html><table id='tblStockList'></table></html>",
+            html=(
+                "<table id='tblStockList'>"
+                "<tr><th>股票代號</th><th>股票名稱</th></tr>"
+                "<tr><td>2330</td><td>台積電</td></tr>"
+                "</table>"
+            ),
             table_selector="#tblStockList",
         )
 
@@ -119,6 +124,7 @@ def test_run_uses_browser_runner_for_saved_preset(tmp_path, monkeypatch) -> None
     }
     assert "Goodinfo Test" in result.output
     assert "#tblStockList" in result.output
+    assert "Parsed rows" in result.output
 
 
 def test_run_can_write_rendered_html(tmp_path, monkeypatch) -> None:
@@ -131,7 +137,12 @@ def test_run_can_write_rendered_html(tmp_path, monkeypatch) -> None:
         return BrowserRunResult(
             final_url=url,
             title="Goodinfo Test",
-            html="<html><table id='tblStockList'></table></html>",
+            html=(
+                "<table id='tblStockList'>"
+                "<tr><th>股票代號</th><th>股票名稱</th></tr>"
+                "<tr><td>2330</td><td>台積電</td></tr>"
+                "</table>"
+            ),
             table_selector="#tblStockList",
         )
 
@@ -140,7 +151,7 @@ def test_run_can_write_rendered_html(tmp_path, monkeypatch) -> None:
     result = runner.invoke(app, ["run", "high-margin", "--html", str(output)], env=env)
 
     assert result.exit_code == 0
-    assert output.read_text(encoding="utf-8") == "<html><table id='tblStockList'></table></html>"
+    assert "台積電" in output.read_text(encoding="utf-8")
     assert "Rendered HTML written to" in result.output
 
 
