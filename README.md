@@ -44,6 +44,42 @@ goodinfo --help
 goodinfo --version
 ```
 
+## Quick Start
+
+Create the local preset store:
+
+```bash
+goodinfo init
+```
+
+Save a Goodinfo stock screener URL as a preset:
+
+```bash
+goodinfo import high-margin "https://goodinfo.tw/tw/StockList.asp?..."
+```
+
+Run the preset and print a readable preview:
+
+```bash
+goodinfo run high-margin --limit 10 --column-limit 8
+```
+
+Export the parsed rows:
+
+```bash
+goodinfo run high-margin \
+  --csv results/high-margin.csv \
+  --json results/high-margin.json
+```
+
+Debug Goodinfo page changes with a visible browser and rendered HTML output:
+
+```bash
+goodinfo run high-margin --headful --html fixtures/high-margin.html
+```
+
+See [examples/high-margin.yml](examples/high-margin.yml) for a sample preset based on a cumulative net profit margin screener.
+
 ## Development
 
 This repository uses a pull request workflow for changes after the initial scaffold.
@@ -113,6 +149,51 @@ Day 5 development status:
 - `--json <path>` writes parsed rows as pretty UTF-8 JSON
 - CSV and JSON exporters preserve first-seen column order across parsed rows
 - Exporter tests cover terminal output, CSV, JSON, and empty result handling
+
+Day 6 development status:
+
+- README includes quick start and troubleshooting notes
+- `examples/high-margin.yml` provides a sample preset file
+- GitHub Actions CI runs `pytest` and `ruff check .`
+- Bug report and feature request issue templates are included
+
+## Troubleshooting
+
+### Playwright Browser Is Not Installed
+
+If `goodinfo run` fails because Chromium is missing, install it:
+
+```bash
+playwright install chromium
+```
+
+### Goodinfo Page Loads But Parsing Fails
+
+Goodinfo may change table markup over time. Re-run with rendered HTML output:
+
+```bash
+goodinfo run high-margin --html fixtures/high-margin.html
+```
+
+Then inspect whether the stock result table still uses `#tblStockList` or a recognizable stock table structure.
+
+### Terminal Table Is Too Wide
+
+Goodinfo tables can have many columns. Limit the preview:
+
+```bash
+goodinfo run high-margin --limit 10 --column-limit 8
+```
+
+Use `--column-limit 0` only when your terminal is wide enough.
+
+### Browser Launch Fails On macOS
+
+Headless browser launch can fail in restricted sandbox environments. Try running from a normal terminal session, or use:
+
+```bash
+goodinfo run high-margin --headful
+```
 
 ## Why This Exists
 
