@@ -46,6 +46,16 @@ goodinfo --version
 
 ## Development
 
+This repository uses a pull request workflow for changes after the initial scaffold.
+
+Recommended flow:
+
+```bash
+git switch main
+git pull
+git switch -c feat/<short-change-name>
+```
+
 Run tests:
 
 ```bash
@@ -67,7 +77,6 @@ Day 1 development status:
 - Basic CLI tests are included
 
 Day 2 development status:
-
 - `goodinfo init` creates the local preset YAML store
 - `goodinfo import <name> <url>` saves a Goodinfo `StockList.asp` URL
 - `goodinfo list` prints saved presets
@@ -75,6 +84,7 @@ Day 2 development status:
 - Preset names and Goodinfo URLs are validated
 - Duplicate presets require `--force`
 - Preset storage tests run without network access
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the PR workflow, local checks, and responsible-use contribution guidelines.
 
 ## Why This Exists
 
