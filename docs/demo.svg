@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">goodinfo-screener-cli terminal demo</title>
+  <desc id="desc">A terminal screenshot showing the goodinfo run command, browser run metadata, parsed row count, and a preview of exported stock screener rows.</desc>
+  <rect width="960" height="560" rx="14" fill="#141414"/>
+  <rect x="1" y="1" width="958" height="558" rx="14" fill="none" stroke="#323232"/>
+  <rect x="0" y="0" width="960" height="46" rx="14" fill="#222222"/>
+  <circle cx="26" cy="23" r="6" fill="#ff5f57"/>
+  <circle cx="48" cy="23" r="6" fill="#ffbd2e"/>
+  <circle cx="70" cy="23" r="6" fill="#28c840"/>
+  <text x="480" y="29" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" fill="#d6d6d6">goodinfo-screener-cli</text>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16">
+    <text x="36" y="82" fill="#8fd0ff">$</text>
+    <text x="58" y="82" fill="#f5f5f5">goodinfo run high-margin --limit 5 --column-limit 6 --csv results/high-margin.csv</text>
+
+    <text x="36" y="126" fill="#d7d7d7">Browser Run: high-margin</text>
+    <text x="36" y="156" fill="#7dcfff">Field</text>
+    <text x="250" y="156" fill="#7dcfff">Value</text>
+    <line x1="36" y1="166" x2="885" y2="166" stroke="#3a3a3a"/>
+    <text x="36" y="194" fill="#d7d7d7">Title</text>
+    <text x="250" y="194" fill="#f5f5f5">Goodinfo stock screener results</text>
+    <text x="36" y="224" fill="#d7d7d7">Final URL</text>
+    <text x="250" y="224" fill="#f5f5f5">https://goodinfo.tw/tw/StockList.asp?...</text>
+    <text x="36" y="254" fill="#d7d7d7">Table selector</text>
+    <text x="250" y="254" fill="#f5f5f5">#tblStockList</text>
+    <text x="36" y="284" fill="#d7d7d7">Parsed rows</text>
+    <text x="250" y="284" fill="#b8f7c2">206</text>
+
+    <text x="36" y="332" fill="#d7d7d7">Rows: high-margin</text>
+    <text x="36" y="362" fill="#7dcfff">Code</text>
+    <text x="118" y="362" fill="#7dcfff">Name</text>
+    <text x="285" y="362" fill="#7dcfff">Price</text>
+    <text x="390" y="362" fill="#7dcfff">Margin</text>
+    <text x="520" y="362" fill="#7dcfff">ROE</text>
+    <text x="630" y="362" fill="#7dcfff">Revenue YoY</text>
+    <line x1="36" y1="372" x2="885" y2="372" stroke="#3a3a3a"/>
+
+    <text x="36" y="402" fill="#f5f5f5">2330</text>
+    <text x="118" y="402" fill="#f5f5f5">TSMC</text>
+    <text x="285" y="402" fill="#f5f5f5">944.00</text>
+    <text x="390" y="402" fill="#f5f5f5">43.0%</text>
+    <text x="520" y="402" fill="#f5f5f5">26.6%</text>
+    <text x="630" y="402" fill="#f5f5f5">34.7%</text>
+
+    <text x="36" y="432" fill="#f5f5f5">2308</text>
+    <text x="118" y="432" fill="#f5f5f5">Delta</text>
+    <text x="285" y="432" fill="#f5f5f5">381.50</text>
+    <text x="390" y="432" fill="#f5f5f5">11.9%</text>
+    <text x="520" y="432" fill="#f5f5f5">21.3%</text>
+    <text x="630" y="432" fill="#f5f5f5">12.4%</text>
+
+    <text x="36" y="462" fill="#f5f5f5">2454</text>
+    <text x="118" y="462" fill="#f5f5f5">MediaTek</text>
+    <text x="285" y="462" fill="#f5f5f5">1325.00</text>
+    <text x="390" y="462" fill="#f5f5f5">19.6%</text>
+    <text x="520" y="462" fill="#f5f5f5">18.4%</text>
+    <text x="630" y="462" fill="#f5f5f5">8.8%</text>
+
+    <text x="36" y="510" fill="#b8f7c2">CSV written to: results/high-margin.csv</text>
+  </g>
+</svg>

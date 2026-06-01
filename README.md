@@ -98,6 +98,14 @@ goodinfo run high-margin --headful --html fixtures/high-margin.html
 See [examples/high-margin.yml](examples/high-margin.yml) for a sample preset
 based on a cumulative net profit margin screener.
 
+## Demo
+
+![Terminal demo of goodinfo-screener-cli running a saved screener preset](docs/demo.svg)
+
+The CLI keeps the workflow local and inspectable: save one screener URL, run it
+through a browser session you control, review a compact terminal table, and write
+CSV or JSON when you need to continue the analysis elsewhere.
+
 ## Commands
 
 ### `goodinfo init`
