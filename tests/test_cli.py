@@ -164,12 +164,48 @@ def test_run_requires_existing_preset(tmp_path) -> None:
     assert "Preset `missing` does not exist" in result.stderr
 
 
-def test_run_rejects_exports_until_parser_exists(tmp_path) -> None:
+def test_run_can_export_csv_and_json(tmp_path, monkeypatch) -> None:
     env = {"GOODINFO_SCREENER_CONFIG_DIR": str(tmp_path)}
+    csv_path = tmp_path / "results" / "rows.csv"
+    json_path = tmp_path / "results" / "rows.json"
     goodinfo_url = "https://goodinfo.tw/tw/StockList.asp?MARKET_CAT=test"
     runner.invoke(app, ["import", "high-margin", goodinfo_url], env=env)
 
-    result = runner.invoke(app, ["run", "high-margin", "--csv", "out.csv"], env=env)
+    def fake_run_goodinfo_page(url: str, *, headless: bool, timeout_ms: int) -> BrowserRunResult:
+        return BrowserRunResult(
+            final_url=url,
+            title="Goodinfo Test",
+            html=(
+                "<table id='tblStockList'>"
+                "<tr><th>股票代號</th><th>股票名稱</th></tr>"
+                "<tr><td>2330</td><td>台積電</td></tr>"
+                "</table>"
+            ),
+            table_selector="#tblStockList",
+        )
 
-    assert result.exit_code == 1
-    assert "CSV and JSON export are planned for Day 5" in result.stderr
+    monkeypatch.setattr("goodinfo_screener.cli.run_goodinfo_page", fake_run_goodinfo_page)
+
+    result = runner.invoke(
+        app,
+        [
+            "run",
+            "high-margin",
+            "--csv",
+            str(csv_path),
+            "--json",
+            str(json_path),
+            "--limit",
+            "1",
+            "--column-limit",
+            "2",
+        ],
+        env=env,
+    )
+
+    assert result.exit_code == 0
+    assert "台積電" in result.output
+    assert "CSV written to" in result.output
+    assert "JSON written to" in result.output
+    assert "台積電" in csv_path.read_text(encoding="utf-8-sig")
+    assert "台積電" in json_path.read_text(encoding="utf-8")

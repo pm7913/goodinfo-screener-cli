@@ -94,6 +94,16 @@ Day 4 development status:
 - `goodinfo run <name>` now reports the parsed row count after browser loading
 - Parser tests use synthetic fixtures and do not commit Goodinfo HTML snapshots
 
+Day 5 development status:
+
+- `goodinfo run <name>` prints parsed rows as a terminal table
+- `--limit <n>` controls how many rows are printed; `--limit 0` prints all rows
+- `--column-limit <n>` controls how many columns are printed; `--column-limit 0` prints all columns
+- `--csv <path>` writes parsed rows as UTF-8 BOM CSV for spreadsheet compatibility
+- `--json <path>` writes parsed rows as pretty UTF-8 JSON
+- CSV and JSON exporters preserve first-seen column order across parsed rows
+- Exporter tests cover terminal output, CSV, JSON, and empty result handling
+
 ## Why This Exists
 
 Goodinfo provides a useful Taiwan stock screening interface, but repeated manual screening can become tedious:

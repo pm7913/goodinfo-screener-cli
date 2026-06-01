@@ -9,6 +9,7 @@ from rich.table import Table
 
 from goodinfo_screener import __version__
 from goodinfo_screener.browser import BrowserError, run_goodinfo_page, write_rendered_html
+from goodinfo_screener.exporters import ExportError, render_rows_table, write_csv, write_json
 from goodinfo_screener.parser import TableParseError, parse_stock_table
 from goodinfo_screener.presets import (
     PresetError,
@@ -128,17 +129,23 @@ def run(
         str | None,
         typer.Option("--json", help="Write parsed rows to a JSON file."),
     ] = None,
+    limit: Annotated[
+        int,
+        typer.Option("--limit", help="Maximum rows to print in the terminal table. Use 0 for all."),
+    ] = 25,
+    column_limit: Annotated[
+        int,
+        typer.Option(
+            "--column-limit",
+            help="Maximum columns to print in the terminal table. Use 0 for all.",
+        ),
+    ] = 8,
     html_path: Annotated[
         str | None,
         typer.Option("--html", help="Write rendered HTML to a file for debugging."),
     ] = None,
 ) -> None:
     """Run a saved preset through browser automation."""
-    if csv_path or json_path:
-        _exit_with_error(
-            "CSV and JSON export are planned for Day 5 after table parsing is available."
-        )
-
     presets = load_presets()
     preset = presets.get(name)
     if preset is None:
@@ -165,6 +172,23 @@ def run(
     table.add_row("Parsed rows", str(len(parsed_rows)))
     table.add_row("HTML bytes", str(len(result.html.encode("utf-8"))))
     console.print(table)
+
+    try:
+        render_rows_table(
+            parsed_rows,
+            console=console,
+            title=f"Rows: {name}",
+            limit=limit,
+            column_limit=column_limit,
+        )
+        if csv_path:
+            output_path = write_csv(parsed_rows, Path(csv_path))
+            typer.echo(f"CSV written to: {output_path}")
+        if json_path:
+            output_path = write_json(parsed_rows, Path(json_path))
+            typer.echo(f"JSON written to: {output_path}")
+    except ExportError as exc:
+        _exit_with_error(str(exc))
 
     if html_path:
         output_path = write_rendered_html(result, Path(html_path))
