@@ -6,7 +6,7 @@ The goal is simple: turn a Goodinfo screener URL that you already use manually i
 
 ## Status
 
-This project is in early planning and scaffolding stage.
+This project is preparing its first `v0.1.0` MVP release.
 
 The first milestone is a minimal CLI that can:
 
@@ -146,6 +146,34 @@ Day 6 development status:
 - `examples/high-margin.yml` provides a sample preset file
 - GitHub Actions CI runs `pytest` and `ruff check .`
 - Bug report and feature request issue templates are included
+
+Day 7 development status:
+
+- `CHANGELOG.md` documents the initial `v0.1.0` MVP
+- Package version is set to `0.1.0`
+- Version consistency is covered by tests
+- GitHub release should be created after the stacked milestone PRs are merged into `main`
+
+## Release Checklist
+
+Before creating `v0.1.0` on GitHub:
+
+- [ ] Merge Day 2 preset system PR
+- [ ] Merge Day 3 browser runner PR
+- [ ] Merge Day 4 parser PR
+- [ ] Merge Day 5 output/export PR
+- [ ] Merge Day 6 docs/CI PR
+- [ ] Merge Day 7 release prep PR
+- [ ] Confirm GitHub Actions CI passes on `main`
+- [ ] Run one local Goodinfo smoke test
+- [ ] Create GitHub release `v0.1.0`
+
+## Future Roadmap Issues
+
+- [Support CLI-defined screener filters](https://github.com/pm7913/goodinfo-screener-cli/issues/7)
+- [Improve parser resilience for Goodinfo layout changes](https://github.com/pm7913/goodinfo-screener-cli/issues/8)
+- [Add optional local caching for recent runs](https://github.com/pm7913/goodinfo-screener-cli/issues/9)
+- [Package and release distribution workflow](https://github.com/pm7913/goodinfo-screener-cli/issues/10)
 
 ## Troubleshooting
 
