@@ -1,5 +1,6 @@
 """Command-line interface for goodinfo-screener-cli."""
 
+from pathlib import Path
 from typing import Annotated
 
 import typer
@@ -7,6 +8,7 @@ from rich.console import Console
 from rich.table import Table
 
 from goodinfo_screener import __version__
+from goodinfo_screener.browser import BrowserError, run_goodinfo_page, write_rendered_html
 from goodinfo_screener.presets import (
     PresetError,
     add_preset,
@@ -125,10 +127,43 @@ def run(
         str | None,
         typer.Option("--json", help="Write parsed rows to a JSON file."),
     ] = None,
+    html_path: Annotated[
+        str | None,
+        typer.Option("--html", help="Write rendered HTML to a file for debugging."),
+    ] = None,
 ) -> None:
     """Run a saved preset through browser automation."""
-    _ = (name, headful, timeout, csv_path, json_path)
-    _planned("run", "Day 3: Browser Runner")
+    if csv_path or json_path:
+        _exit_with_error(
+            "CSV and JSON export are planned for Day 5 after table parsing is available."
+        )
+
+    presets = load_presets()
+    preset = presets.get(name)
+    if preset is None:
+        _exit_with_error(f"Preset `{name}` does not exist.")
+
+    try:
+        result = run_goodinfo_page(
+            preset.url,
+            headless=not headful,
+            timeout_ms=timeout,
+        )
+    except BrowserError as exc:
+        _exit_with_error(str(exc))
+
+    table = Table(title=f"Browser Run: {name}")
+    table.add_column("Field", style="cyan", no_wrap=True)
+    table.add_column("Value", overflow="fold")
+    table.add_row("Title", result.title or "(untitled)")
+    table.add_row("Final URL", result.final_url)
+    table.add_row("Table selector", result.table_selector)
+    table.add_row("HTML bytes", str(len(result.html.encode("utf-8"))))
+    console.print(table)
+
+    if html_path:
+        output_path = write_rendered_html(result, Path(html_path))
+        typer.echo(f"Rendered HTML written to: {output_path}")
 
 
 @app.command()
