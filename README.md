@@ -86,6 +86,15 @@ Day 2 development status:
 - Preset storage tests run without network access
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the PR workflow, local checks, and responsible-use contribution guidelines.
 
+Day 3 development status:
+
+- `goodinfo run <name>` loads a saved preset and opens it with Playwright
+- `--headful` runs Chromium in visible mode for debugging
+- `--timeout` controls browser timeout in milliseconds
+- The browser runner waits for a supported Goodinfo stock result table
+- `--html <path>` can save rendered HTML for debugging or future parser fixtures
+- CSV and JSON export remain blocked until Day 4/5 table parsing is implemented
+
 ## Why This Exists
 
 Goodinfo provides a useful Taiwan stock screening interface, but repeated manual screening can become tedious:

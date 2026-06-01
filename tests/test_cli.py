@@ -1,6 +1,7 @@
 from typer.testing import CliRunner
 
 from goodinfo_screener import __version__
+from goodinfo_screener.browser import BrowserRunResult
 from goodinfo_screener.cli import app
 
 runner = CliRunner()
@@ -84,8 +85,80 @@ def test_import_rejects_invalid_name_and_url(tmp_path) -> None:
     assert "URL host must be goodinfo.tw" in invalid_url.stderr
 
 
-def test_run_placeholder_remains_for_day_3() -> None:
-    result = runner.invoke(app, ["run", "high-margin"])
+def test_run_uses_browser_runner_for_saved_preset(tmp_path, monkeypatch) -> None:
+    env = {"GOODINFO_SCREENER_CONFIG_DIR": str(tmp_path)}
+    goodinfo_url = "https://goodinfo.tw/tw/StockList.asp?MARKET_CAT=test"
+    runner.invoke(app, ["import", "high-margin", goodinfo_url], env=env)
 
-    assert result.exit_code == 2
-    assert "Day 3: Browser Runner" in result.output
+    calls = {}
+
+    def fake_run_goodinfo_page(url: str, *, headless: bool, timeout_ms: int) -> BrowserRunResult:
+        calls["url"] = url
+        calls["headless"] = headless
+        calls["timeout_ms"] = timeout_ms
+        return BrowserRunResult(
+            final_url=url,
+            title="Goodinfo Test",
+            html="<html><table id='tblStockList'></table></html>",
+            table_selector="#tblStockList",
+        )
+
+    monkeypatch.setattr("goodinfo_screener.cli.run_goodinfo_page", fake_run_goodinfo_page)
+
+    result = runner.invoke(
+        app,
+        ["run", "high-margin", "--headful", "--timeout", "45000"],
+        env=env,
+    )
+
+    assert result.exit_code == 0
+    assert calls == {
+        "url": goodinfo_url,
+        "headless": False,
+        "timeout_ms": 45000,
+    }
+    assert "Goodinfo Test" in result.output
+    assert "#tblStockList" in result.output
+
+
+def test_run_can_write_rendered_html(tmp_path, monkeypatch) -> None:
+    env = {"GOODINFO_SCREENER_CONFIG_DIR": str(tmp_path / "config")}
+    output = tmp_path / "rendered" / "goodinfo.html"
+    goodinfo_url = "https://goodinfo.tw/tw/StockList.asp?MARKET_CAT=test"
+    runner.invoke(app, ["import", "high-margin", goodinfo_url], env=env)
+
+    def fake_run_goodinfo_page(url: str, *, headless: bool, timeout_ms: int) -> BrowserRunResult:
+        return BrowserRunResult(
+            final_url=url,
+            title="Goodinfo Test",
+            html="<html><table id='tblStockList'></table></html>",
+            table_selector="#tblStockList",
+        )
+
+    monkeypatch.setattr("goodinfo_screener.cli.run_goodinfo_page", fake_run_goodinfo_page)
+
+    result = runner.invoke(app, ["run", "high-margin", "--html", str(output)], env=env)
+
+    assert result.exit_code == 0
+    assert output.read_text(encoding="utf-8") == "<html><table id='tblStockList'></table></html>"
+    assert "Rendered HTML written to" in result.output
+
+
+def test_run_requires_existing_preset(tmp_path) -> None:
+    env = {"GOODINFO_SCREENER_CONFIG_DIR": str(tmp_path)}
+
+    result = runner.invoke(app, ["run", "missing"], env=env)
+
+    assert result.exit_code == 1
+    assert "Preset `missing` does not exist" in result.stderr
+
+
+def test_run_rejects_exports_until_parser_exists(tmp_path) -> None:
+    env = {"GOODINFO_SCREENER_CONFIG_DIR": str(tmp_path)}
+    goodinfo_url = "https://goodinfo.tw/tw/StockList.asp?MARKET_CAT=test"
+    runner.invoke(app, ["import", "high-margin", goodinfo_url], env=env)
+
+    result = runner.invoke(app, ["run", "high-margin", "--csv", "out.csv"], env=env)
+
+    assert result.exit_code == 1
+    assert "CSV and JSON export are planned for Day 5" in result.stderr
