@@ -9,6 +9,7 @@ from rich.table import Table
 
 from goodinfo_screener import __version__
 from goodinfo_screener.browser import BrowserError, run_goodinfo_page, write_rendered_html
+from goodinfo_screener.parser import TableParseError, parse_stock_table
 from goodinfo_screener.presets import (
     PresetError,
     add_preset,
@@ -149,7 +150,10 @@ def run(
             headless=not headful,
             timeout_ms=timeout,
         )
+        parsed_rows = parse_stock_table(result.html)
     except BrowserError as exc:
+        _exit_with_error(str(exc))
+    except TableParseError as exc:
         _exit_with_error(str(exc))
 
     table = Table(title=f"Browser Run: {name}")
@@ -158,6 +162,7 @@ def run(
     table.add_row("Title", result.title or "(untitled)")
     table.add_row("Final URL", result.final_url)
     table.add_row("Table selector", result.table_selector)
+    table.add_row("Parsed rows", str(len(parsed_rows)))
     table.add_row("HTML bytes", str(len(result.html.encode("utf-8"))))
     console.print(table)
 
