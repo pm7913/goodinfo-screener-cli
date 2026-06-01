@@ -76,6 +76,14 @@ Day 1 development status:
 - Placeholder commands exit with clear milestone messages
 - Basic CLI tests are included
 
+Day 2 development status:
+- `goodinfo init` creates the local preset YAML store
+- `goodinfo import <name> <url>` saves a Goodinfo `StockList.asp` URL
+- `goodinfo list` prints saved presets
+- `goodinfo remove <name>` deletes a preset
+- Preset names and Goodinfo URLs are validated
+- Duplicate presets require `--force`
+- Preset storage tests run without network access
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the PR workflow, local checks, and responsible-use contribution guidelines.
 
 ## Why This Exists

@@ -3,8 +3,19 @@
 from typing import Annotated
 
 import typer
+from rich.console import Console
+from rich.table import Table
 
 from goodinfo_screener import __version__
+from goodinfo_screener.presets import (
+    PresetError,
+    add_preset,
+    init_store,
+    load_presets,
+    remove_preset,
+)
+
+console = Console()
 
 app = typer.Typer(
     help=(
@@ -36,6 +47,11 @@ def main(
     """Run Goodinfo screener automation commands."""
 
 
+def _exit_with_error(message: str) -> None:
+    typer.secho(message, fg=typer.colors.RED, err=True)
+    raise typer.Exit(code=1)
+
+
 def _planned(command: str, milestone: str) -> None:
     typer.secho(
         f"`goodinfo {command}` is planned for {milestone} and is not implemented yet.",
@@ -47,7 +63,8 @@ def _planned(command: str, milestone: str) -> None:
 @app.command()
 def init() -> None:
     """Create the local preset configuration directory."""
-    _planned("init", "Day 2: Preset System")
+    path = init_store()
+    typer.echo(f"Preset store ready: {path}")
 
 
 @app.command(name="import")
@@ -60,14 +77,33 @@ def import_preset(
     ] = False,
 ) -> None:
     """Save a Goodinfo screener URL as a named preset."""
-    _ = (name, url, force)
-    _planned("import", "Day 2: Preset System")
+    try:
+        existed = name in load_presets()
+        add_preset(name, url, force=force)
+    except PresetError as exc:
+        _exit_with_error(str(exc))
+    action = "Updated" if existed else "Saved"
+    typer.echo(f"{action} preset `{name}`.")
 
 
 @app.command(name="list")
 def list_presets() -> None:
     """List saved screener presets."""
-    _planned("list", "Day 2: Preset System")
+    presets = load_presets()
+    if not presets:
+        typer.echo("No presets found. Add one with `goodinfo import <name> <url>`.")
+        return
+
+    table = Table(title="Goodinfo Presets")
+    table.add_column("Name", style="cyan", no_wrap=True)
+    table.add_column("Source")
+    table.add_column("Created")
+    table.add_column("URL", overflow="fold")
+
+    for name, preset in sorted(presets.items()):
+        table.add_row(name, preset.source, preset.created_at.isoformat(), preset.url)
+
+    console.print(table)
 
 
 @app.command()
@@ -100,5 +136,8 @@ def remove(
     name: Annotated[str, typer.Argument(help="Preset name to remove.")],
 ) -> None:
     """Remove a saved preset."""
-    _ = name
-    _planned("remove", "Day 2: Preset System")
+    try:
+        remove_preset(name)
+    except PresetError as exc:
+        _exit_with_error(str(exc))
+    typer.echo(f"Removed preset `{name}`.")
