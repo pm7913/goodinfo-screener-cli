@@ -49,6 +49,24 @@ ruff check .
 goodinfo --help
 ```
 
+## AI-Assisted Maintenance
+
+Codex may be used to help review pull requests, triage issues, draft changelog
+entries, and suggest focused tests. AI assistance is advisory: maintainers remain
+responsible for reading the diff, validating behavior, running checks, and
+deciding whether to merge.
+
+Good uses of Codex in this project:
+
+- Review parser or browser-runner changes for regressions and responsible-use
+  risks
+- Turn reproducible bug reports into focused test cases
+- Draft release notes from merged pull requests and verification output
+- Keep README examples, troubleshooting notes, and roadmap links current
+
+Do not use AI assistance as a substitute for maintainer review, CI, or manual
+smoke testing when a change depends on live Goodinfo behavior.
+
 ## Scope Guidelines
 
 Keep PRs small and tied to one milestone when possible.

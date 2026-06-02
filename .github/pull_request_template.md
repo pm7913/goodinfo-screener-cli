@@ -16,6 +16,10 @@
 - [ ] `ruff check .`
 - [ ] `goodinfo --help`
 
+## AI Assistance
+
+- [ ] Any AI-assisted code, tests, or docs were reviewed by the maintainer before requesting merge.
+
 ## Responsible Use
 
 - [ ] This PR does not add CAPTCHA bypassing, bulk crawling, login-only automation, or investment advice.

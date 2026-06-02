@@ -1,5 +1,11 @@
 # goodinfo-screener-cli
 
+[![CI](https://github.com/pm7913/goodinfo-screener-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/pm7913/goodinfo-screener-cli/actions/workflows/ci.yml)
+[![Publish to PyPI](https://github.com/pm7913/goodinfo-screener-cli/actions/workflows/publish.yml/badge.svg)](https://github.com/pm7913/goodinfo-screener-cli/actions/workflows/publish.yml)
+[![Release](https://img.shields.io/github/v/release/pm7913/goodinfo-screener-cli)](https://github.com/pm7913/goodinfo-screener-cli/releases)
+[![License: MIT](https://img.shields.io/github/license/pm7913/goodinfo-screener-cli)](LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/pm7913/goodinfo-screener-cli)](https://github.com/pm7913/goodinfo-screener-cli/issues)
+
 `goodinfo-screener-cli` is a Python CLI for turning a Goodinfo stock screener URL
 that you already use manually into a repeatable local workflow.
 
@@ -33,10 +39,19 @@ preview the result, and export it.
 ```
 
 See [CHANGELOG.md](CHANGELOG.md) for the release notes and verification summary.
+See [docs/project-health.md](docs/project-health.md) for public project metrics,
+maintenance activity, roadmap evidence, and the AI-assisted maintenance plan.
 
 ## Installation
 
 This project targets Python 3.11 or newer.
+
+PyPI distribution is prepared through GitHub Actions Trusted Publishing and will
+become available after the first PyPI release:
+
+```bash
+python -m pip install goodinfo-screener-cli
+```
 
 Install from a local checkout:
 
