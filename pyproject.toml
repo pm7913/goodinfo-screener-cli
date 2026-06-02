@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "goodinfo-screener-cli"
-version = "0.1.0"
+version = "0.1.1"
 description = "CLI for saving and running Goodinfo stock screener presets with Playwright browser automation."
 readme = "README.md"
 requires-python = ">=3.11"

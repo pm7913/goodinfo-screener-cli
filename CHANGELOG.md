@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.1.1 - 2026-06-02
+
+Documentation and distribution metadata update.
+
+### Added
+
+- PyPI Trusted Publishing workflow for GitHub Actions
+- PyPI version and download badges in README
+- Project health page with impact signals, maintenance activity, roadmap
+  evidence, package distribution status, and AI-assisted maintenance plan
+- AI-assisted maintenance guidance in contributing docs and pull request
+  template
+
+### Verification
+
+- `pytest`
+- `ruff check .`
+- `python -m build`
+- GitHub Actions `Publish to PyPI` workflow successfully published `v0.1.0`
+  through PyPI Trusted Publishing
+
 ## v0.1.0 - 2026-06-01
 
 Initial MVP release.

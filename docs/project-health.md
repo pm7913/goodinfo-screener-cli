@@ -37,8 +37,7 @@ Current public signals:
 - Watchers: 0
 - Contributors: 1 known maintainer in public git history
 - Package manager distribution: PyPI release workflow prepared with GitHub
-  Actions Trusted Publishing; PyPI pending publisher configured; first PyPI
-  release pending
+  Actions Trusted Publishing; PyPI project published
 - Downstream dependents: none known yet
 
 The project is intentionally transparent about being new. Near-term impact work
@@ -51,25 +50,28 @@ The repository now includes `.github/workflows/publish.yml` for PyPI releases.
 The workflow runs when a GitHub release is published, builds the package, and
 publishes it through PyPI Trusted Publishing.
 
-The PyPI pending trusted publisher is configured for:
+The PyPI project is published at:
 
-- PyPI project name: `goodinfo-screener-cli`
-- Provider: GitHub
+- Project URL: https://pypi.org/project/goodinfo-screener-cli/
+- Initial published version: `0.1.0`
+- Initial upload time: 2026-06-02T00:51Z
+- Distribution files: wheel and source distribution
+
+The trusted publisher is configured for:
+
+- Provider: GitHub Actions
 - Repository: `pm7913/goodinfo-screener-cli`
-- Workflow: `publish.yml`
+- Workflow: `.github/workflows/publish.yml`
 - Environment: `pypi`
 
-Expected installation command after the first successful PyPI release:
+Installation command:
 
 ```bash
 python -m pip install goodinfo-screener-cli
 ```
 
-After the first successful PyPI release, this page should track:
+Download metrics should be tracked after public download data begins to accrue:
 
-- PyPI project URL
-- PyPI version badge
-- PyPI download badge or download query result
 - Monthly download trend
 - Known downstream dependents, if any
 

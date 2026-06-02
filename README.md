@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/pm7913/goodinfo-screener-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/pm7913/goodinfo-screener-cli/actions/workflows/ci.yml)
 [![Publish to PyPI](https://github.com/pm7913/goodinfo-screener-cli/actions/workflows/publish.yml/badge.svg)](https://github.com/pm7913/goodinfo-screener-cli/actions/workflows/publish.yml)
+[![PyPI](https://img.shields.io/pypi/v/goodinfo-screener-cli)](https://pypi.org/project/goodinfo-screener-cli/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/goodinfo-screener-cli)](https://pypi.org/project/goodinfo-screener-cli/)
 [![Release](https://img.shields.io/github/v/release/pm7913/goodinfo-screener-cli)](https://github.com/pm7913/goodinfo-screener-cli/releases)
 [![License: MIT](https://img.shields.io/github/license/pm7913/goodinfo-screener-cli)](LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/pm7913/goodinfo-screener-cli)](https://github.com/pm7913/goodinfo-screener-cli/issues)
@@ -31,7 +33,7 @@ automation, or CAPTCHA bypassing.
 
 ## Status
 
-`v0.1.0` is the first MVP release. The current scope is intentionally narrow:
+`v0.1.x` is the first MVP release line. The current scope is intentionally narrow:
 
 ```text
 Save one Goodinfo screener URL, run it locally, parse the rendered table,
@@ -46,8 +48,7 @@ maintenance activity, roadmap evidence, and the AI-assisted maintenance plan.
 
 This project targets Python 3.11 or newer.
 
-PyPI distribution is prepared through GitHub Actions Trusted Publishing and will
-become available after the first PyPI release:
+Install from PyPI:
 
 ```bash
 python -m pip install goodinfo-screener-cli
